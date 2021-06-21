@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Combat/HitDetection/Hitbox.tscn" type="PackedScene" id=1]
+
+[sub_resource type="CapsuleShape2D" id=1]
+
+[node name="Spike" type="Sprite"]
+
+[node name="Hitbox" parent="." instance=ExtResource( 1 )]
+collision_layer = 16
+collision_mask = 8
+
+[node name="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource( 1 )
+
+[editable path="Hitbox"]
