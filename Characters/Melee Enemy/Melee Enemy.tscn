@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://Characters/Melee Enemy/Melee Enemy.gd" type="Script" id=1]
+[ext_resource path="res://Combat/HitDetection/DirectionCheck.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Combat/HitDetection/TargetDetection.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Combat/HitDetection/NewDirectionTimer.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Combat/HitDetection/Hurtbox.tscn" type="PackedScene" id=5]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 6.08276
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 8.0
+height = 4.0
+
+[node name="Melee Enemy" type="KinematicBody2D"]
+script = ExtResource( 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+
+[node name="DirectionCheck" parent="." instance=ExtResource( 2 )]
+
+[node name="NewDirectionTimer" parent="." instance=ExtResource( 4 )]
+
+[node name="Arm" type="Position2D" parent="."]
+
+[node name="TargetDetection" parent="." instance=ExtResource( 3 )]
+
+[node name="Hurtbox" parent="." instance=ExtResource( 5 )]
+collision_layer = 32
+collision_mask = 4
+
+[node name="CollisionShape2D" parent="Hurtbox" index="0"]
+shape = SubResource( 2 )
+
+[connection signal="timeout" from="NewDirectionTimer" to="." method="_on_NewDirectionTimer_timeout"]
+
+[editable path="Hurtbox"]
