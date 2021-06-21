@@ -8,6 +8,13 @@ onready var shoot_timer = $ShootTimer
 func _physics_process(_delta):
 	if target and is_instance_valid(target):
 		arm.look_at(target.position)
+	
+	if alive:
+		if direction == Vector2.ZERO:
+			$BodyAnimations.play("idle")
+		else:
+			$Sprite.flip_h = direction.x > 0
+			$BodyAnimations.play("move")
 
 
 func shoot():
@@ -18,5 +25,5 @@ func shoot():
 		get_parent().add_child(bullet)
 
 func _on_ShootTimer_timeout():
-	shoot()
+	$GunAnimations.play("shoot")
 

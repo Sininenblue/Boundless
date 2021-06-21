@@ -3,12 +3,14 @@ class_name movement_script extends KinematicBody2D
 var velocity : Vector2
 var direction : Vector2
 var target : KinematicBody2D = null
+var alive : bool = true
 
 
 export var speed : int = 50
 export var weight : float = .3
 export var direction_change_frequency : float = 3
 export var health : int = 3
+
 
 
 onready var new_direction_timer = $NewDirectionTimer
@@ -29,6 +31,7 @@ func _physics_process(_delta):
 	velocity = move_and_slide(velocity)
 	
 	if health <= 0:
+		alive = false
 		call_deferred("queue_free")
 	
 	

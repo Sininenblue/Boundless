@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Characters/Melee Enemy/Melee Enemy.gd" type="Script" id=1]
 [ext_resource path="res://Combat/HitDetection/DirectionCheck.tscn" type="PackedScene" id=2]
@@ -6,15 +6,53 @@
 [ext_resource path="res://Combat/HitDetection/NewDirectionTimer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Combat/HitDetection/Hurtbox.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Combat/HitDetection/Hitbox.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/Melee Enemy/melee enemy shield.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Melee Enemy/melee enemy.png" type="Texture" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.08276
 
-[sub_resource type="CircleShape2D" id=3]
+[sub_resource type="CapsuleShape2D" id=4]
+radius = 5.00001
+height = 5.99998
 
-[sub_resource type="CapsuleShape2D" id=2]
+[sub_resource type="CapsuleShape2D" id=3]
 radius = 8.0
 height = 4.0
+
+[sub_resource type="Animation" id=5]
+resource_name = "idle"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "move"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6 ]
+}
 
 [node name="Melee Enemy" type="KinematicBody2D"]
 collision_layer = 2
@@ -25,29 +63,43 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 8 )
+hframes = 9
+frame = 6
 
 [node name="DirectionCheck" parent="." instance=ExtResource( 2 )]
 
 [node name="Arm" type="Position2D" parent="."]
+position = Vector2( 0, -2 )
 
 [node name="Hitbox" parent="Arm" instance=ExtResource( 6 )]
-position = Vector2( 11, 0 )
+position = Vector2( 13, 0 )
 collision_layer = 16
 collision_mask = 8
 
 [node name="CollisionShape2D" parent="Arm/Hitbox" index="0"]
-shape = SubResource( 3 )
+rotation = 1.57079
+shape = SubResource( 4 )
+
+[node name="Sprite" type="Sprite" parent="Arm"]
+position = Vector2( 13, 0 )
+texture = ExtResource( 7 )
+flip_h = true
 
 [node name="Hurtbox" parent="." instance=ExtResource( 5 )]
 collision_layer = 32
 collision_mask = 4
 
 [node name="CollisionShape2D" parent="Hurtbox" index="0"]
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="TargetDetection" parent="." instance=ExtResource( 3 )]
 
 [node name="NewDirectionTimer" parent="." instance=ExtResource( 4 )]
+
+[node name="BodyAnimations" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 5 )
+anims/move = SubResource( 6 )
 
 [editable path="Arm/Hitbox"]
 [editable path="Hurtbox"]

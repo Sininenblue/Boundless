@@ -1,18 +1,108 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Characters/Ranged Enemy/Ranged Enemy.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Prototype Arts/Enemy.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Ranged Enemy/ranged enemy.png" type="Texture" id=2]
 [ext_resource path="res://Combat/HitDetection/Hurtbox.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Combat/HitDetection/TargetDetection.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Combat/HitDetection/DirectionCheck.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Combat/HitDetection/NewDirectionTimer.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/Ranged Enemy/ranged enemy weapon.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Ranged Enemy/ranged enemy weapon barrel.png" type="Texture" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 5.0
 
 [sub_resource type="CapsuleShape2D" id=2]
 radius = 7.0
-height = 8.0
+height = 6.0
+
+[sub_resource type="Animation" id=3]
+resource_name = "idle"
+length = 0.5
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 0.611473, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "move"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 5, 6, 7, 8 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 1 ), Vector2( 0, 1 ), Vector2( 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "shoot"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("Arm/GunBarrel:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 0 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "shoot"
+} ]
+}
 
 [node name="Ranged Enemy" type="KinematicBody2D"]
 collision_layer = 2
@@ -23,8 +113,10 @@ script = ExtResource( 1 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
-position = Vector2( 0, -5 )
+position = Vector2( 0, -4 )
 texture = ExtResource( 2 )
+hframes = 12
+frame = 8
 
 [node name="DirectionCheck" parent="." instance=ExtResource( 5 )]
 
@@ -34,7 +126,19 @@ texture = ExtResource( 2 )
 one_shot = true
 autostart = true
 
+[node name="GunBody" type="Sprite" parent="."]
+position = Vector2( 1, -6 )
+texture = ExtResource( 7 )
+
 [node name="Arm" type="Position2D" parent="."]
+position = Vector2( 0, -10 )
+
+[node name="GunBarrel" type="Sprite" parent="Arm"]
+position = Vector2( 10, -1 )
+texture = ExtResource( 8 )
+flip_h = true
+hframes = 4
+frame = 2
 
 [node name="Hurtbox" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, -4 )
@@ -45,6 +149,13 @@ collision_mask = 4
 shape = SubResource( 2 )
 
 [node name="TargetDetection" parent="." instance=ExtResource( 4 )]
+
+[node name="BodyAnimations" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 3 )
+anims/move = SubResource( 4 )
+
+[node name="GunAnimations" type="AnimationPlayer" parent="."]
+anims/shoot = SubResource( 5 )
 
 [connection signal="timeout" from="ShootTimer" to="." method="_on_ShootTimer_timeout"]
 
