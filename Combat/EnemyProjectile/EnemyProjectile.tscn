@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Combat/EnemyProjectile/Projectile.gd" type="Script" id=1]
 [ext_resource path="res://Combat/HitDetection/Hitbox.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Assets/Prototype Arts/EnemyProjectile.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Ranged Enemy/ranged enemy projectile.png" type="Texture" id=3]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 4.0

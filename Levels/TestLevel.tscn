@@ -31,4 +31,13 @@ position = Vector2( 462.448, 247.487 )
 position = Vector2( 231.472, 273.496 )
 
 [node name="Spike" parent="." instance=ExtResource( 5 )]
-position = Vector2( 523.842, 9.5244 )
+position = Vector2( 205, 344 )
+rotation = 1.57079
+
+[node name="Spike2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 192, 344 )
+rotation = 1.57079
+
+[node name="Spike3" parent="." instance=ExtResource( 5 )]
+position = Vector2( 178, 344 )
+rotation = 1.57079
