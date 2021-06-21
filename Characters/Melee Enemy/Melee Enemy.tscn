@@ -12,7 +12,7 @@
 [sub_resource type="CircleShape2D" id=1]
 radius = 6.08276
 
-[sub_resource type="CapsuleShape2D" id=4]
+[sub_resource type="CapsuleShape2D" id=2]
 radius = 5.00001
 height = 5.99998
 
@@ -20,7 +20,7 @@ height = 5.99998
 radius = 8.0
 height = 4.0
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 resource_name = "idle"
 length = 0.4
 loop = true
@@ -37,7 +37,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 resource_name = "move"
 length = 0.3
 loop = true
@@ -79,7 +79,7 @@ collision_mask = 8
 
 [node name="CollisionShape2D" parent="Arm/Hitbox" index="0"]
 rotation = 1.57079
-shape = SubResource( 4 )
+shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="Arm"]
 position = Vector2( 13, 0 )
@@ -98,8 +98,8 @@ shape = SubResource( 3 )
 [node name="NewDirectionTimer" parent="." instance=ExtResource( 4 )]
 
 [node name="BodyAnimations" type="AnimationPlayer" parent="."]
-anims/idle = SubResource( 5 )
-anims/move = SubResource( 6 )
+anims/idle = SubResource( 4 )
+anims/move = SubResource( 5 )
 
 [editable path="Arm/Hitbox"]
 [editable path="Hurtbox"]

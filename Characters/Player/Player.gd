@@ -35,7 +35,7 @@ func _physics_process(delta):
 	if Input.is_action_pressed("shoot") and can_shoot:
 		$BodyAnimations.play("idle")
 		arrow.visible = true
-		Engine.time_scale = .2
+		Engine.time_scale = .1
 	
 	# decceleration
 	velocity = velocity.linear_interpolate(Vector2.ZERO, .01)
