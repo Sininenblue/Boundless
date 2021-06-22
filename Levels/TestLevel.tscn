@@ -27,6 +27,9 @@ smoothing_speed = 10.0
 [node name="Ranged Enemy" parent="." instance=ExtResource( 3 )]
 position = Vector2( 462.448, 247.487 )
 
+[node name="Ranged Enemy2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 343, 279 )
+
 [node name="Melee Enemy" parent="." instance=ExtResource( 4 )]
 position = Vector2( 231.472, 273.496 )
 

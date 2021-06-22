@@ -32,6 +32,8 @@ func _physics_process(_delta):
 	
 	if health <= 0:
 		alive = false
+		if get_parent().name == "door":
+			get_parent()._dead(self)
 		call_deferred("queue_free")
 	
 	

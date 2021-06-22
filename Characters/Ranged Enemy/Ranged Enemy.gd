@@ -24,6 +24,7 @@ func shoot():
 		bullet.transform = arm.global_transform
 		get_parent().add_child(bullet)
 
+
 func _on_ShootTimer_timeout():
 	$GunAnimations.play("shoot")
 

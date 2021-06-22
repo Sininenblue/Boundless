@@ -1,5 +1,9 @@
 extends KinematicBody2D
 
+
+export var player_glow : Color
+export var default : Color
+
 var velocity : Vector2
 var direction: Vector2
 var speed : int = 300
@@ -9,6 +13,7 @@ var can_shoot : bool = true
 export var health : int = 4
 
 onready var hitbox = $Hitbox/CollisionShape2D
+onready var glow = $PlayerGlow
 onready var arrow = $"player arrow"
 
 func _input(event):
@@ -23,13 +28,23 @@ func _physics_process(delta):
 	animations()
 	direction = position.direction_to(get_global_mouse_position())
 	
-	hitbox.disabled = velocity.abs().length() < 100
+	if velocity.abs().length() < 100:
+		hitbox.disabled = true
+		$Trail.emitting = false
+	else:
+		hitbox.disabled = false
+		$Trail.emitting = true
 	
 	if health <= 0:
 		call_deferred("queue_free")
 	
 	arrow.look_at(get_global_mouse_position())
 	
+	#eyeglow
+	if can_shoot:
+		glow.modulate = player_glow
+	else:
+		glow.modulate = default
 	
 	# slowdown before shoot
 	if Input.is_action_pressed("shoot") and can_shoot:
@@ -50,8 +65,6 @@ func _physics_process(delta):
 
 func _on_Hurtbox_area_entered(area):
 	health -= area.damage
-	var knockback_direction = -position.direction_to(area.global_position)
-	velocity += knockback_direction * area.knockback
 
 
 func _on_Hitbox_area_entered(area):
